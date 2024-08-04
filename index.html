@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>VR Torch and Goblet</title>
+    <meta name="description" content="VR Torch and Goblet Interaction with A-Frame">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
+    <script>
+      AFRAME.registerComponent('torch-collision', {
+        init: function () {
+          var el = this.el;
+          el.addEventListener('collide', function (e) {
+            if (e.detail.body.el.id === 'goblet') {
+              // Change goblet to show flame
+              e.detail.body.el.setAttribute('material', 'color', 'orange');
+              
+              // Reveal the room full of boxes
+              document.querySelector('#room').setAttribute('visible', true);
+            }
+          });
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <a-scene physics="debug: true">
+      <!-- Camera and Light -->
+      <a-entity camera look-controls wasd-controls>
+        <a-entity oculus-touch-controls="hand: right"></a-entity>
+      </a-entity>
+      <a-light type="ambient" color="#888"></a-light>
+      <a-light type="point" intensity="1" position="2 4 4"></a-light>
+
+      <!-- The Goblet -->
+      <a-entity id="goblet" geometry="primitive: cylinder; height: 0.5; radius: 0.3" 
+                material="color: gray" 
+                position="0 1 -3" 
+                static-body>
+      </a-entity>
+
+      <!-- The Torch -->
+      <a-entity id="torch" 
+                geometry="primitive: cylinder; height: 0.5; radius: 0.1" 
+                material="color: red" 
+                position="0 1.6 -2" 
+                torch-collision 
+                dynamic-body>
+      </a-entity>
+
+      <!-- The Room (initially hidden) -->
+      <a-entity id="room" visible="false">
+        <!-- Boxes in the Room -->
+        <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+        <a-box position="1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+        <a-box position="0 0.5 -4" rotation="0 45 0" color="#4CC3D9"></a-box>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
