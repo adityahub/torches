@@ -27,7 +27,15 @@
     <a-scene physics="debug: true">
       <!-- Camera and Light -->
       <a-entity camera look-controls wasd-controls>
-        <a-entity oculus-touch-controls="hand: right"></a-entity>
+        <a-entity id="rightHand" oculus-touch-controls="hand: right" torch-collision>
+          <!-- The Torch -->
+          <a-entity id="torch" 
+                    geometry="primitive: cylinder; height: 0.5; radius: 0.1" 
+                    material="color: red" 
+                    position="0 0 -0.25" 
+                    dynamic-body>
+          </a-entity>
+        </a-entity>
       </a-entity>
       <a-light type="ambient" color="#888"></a-light>
       <a-light type="point" intensity="1" position="2 4 4"></a-light>
@@ -37,15 +45,6 @@
                 material="color: gray" 
                 position="0 1 -3" 
                 static-body>
-      </a-entity>
-
-      <!-- The Torch -->
-      <a-entity id="torch" 
-                geometry="primitive: cylinder; height: 0.5; radius: 0.1" 
-                material="color: red" 
-                position="0 1.6 -2" 
-                torch-collision 
-                dynamic-body>
       </a-entity>
 
       <!-- The Room (initially hidden) -->
